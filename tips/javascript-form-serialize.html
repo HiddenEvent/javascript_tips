@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> From 데이터 Json 직열화 해서 가져오기 </title>
+</head>
+<script language="javascript">
+    function getFormJson() {
+        // Select Form
+        let selForm = document.querySelector("#basic_form");
+        // Getting an FormData
+        let data = new FormData(selForm);
+        // Getting a Serialize Data from FormData
+        let serializedFormData = serialize(data);
+        // Log
+        console.log(serializedFormData)
+        console.log(JSON.stringify(serializedFormData));
+    }
+
+    function serialize(rawData) {
+        let rtnData = {};
+        for (let [key, value] of rawData) {
+            let sel = document.querySelectorAll("[name=" + key + "]");
+            // Array Values
+            if (sel.length > 1) {
+                if (rtnData[key] === undefined) {
+                    rtnData[key] = [];
+                }
+                rtnData[key].push(value);
+            }
+            // Other
+            else {
+                rtnData[key] = value;
+            }
+        }
+        return rtnData;
+    }
+
+</script>
+</head>
+
+<body>
+<form action="/" id="basic_form" onsubmit="">
+    <div>
+        <label for="text">Name</label> <input type="text" name="name">
+    </div>
+    <label>Favorite Food Style</label>
+    <div>
+        <label>
+            <input type="checkbox" name="chkFood" value="Korean">Korean Style</label><br>
+        <label>
+            <input type="checkbox" name="chkFood" value="Italian">Italian Style
+        </label><br>
+        <label>
+            <input type="checkbox" name="chkFood" value="American">American Style
+        </label><br>
+        <label>
+            <input type="checkbox" name="chkFood" value="Mexican">Mexican Style
+        </label><br>
+    </div>
+    <button type="submit" >저장</button>
+</form>
+
+<textarea id="txtarea_json"></textarea>
+</body>
+</html>
